@@ -1,7 +1,7 @@
 # smart-iot-system
 This is a repo for my graduation project; a prototype of an IoT-based smart lighting and security system.
 
-## Technology Used:
+## Technology used:
 ESP32 and written in C++ (Arduino IDE).
 
 ## The system includes:
