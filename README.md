@@ -1,5 +1,5 @@
 # 🚀 smart-iot-system
-This is my college capston project; a prototype of an IoT-based smart lighting and security system.
+This is my college capstone project; a prototype of an IoT-based smart lighting and security system.
 
 ## How does it work and what inspired it? 
 The idea is simple. A user connects to the esp32 which acts as both a soft access point, and a captive portal. If the user is authorized, the door (or rather, the servo motor acting as a placeholder for the door) unlocks and depending on whether the user is the owner of the home or a guest, the lights will turn yellow or blue, along with an LCD message saying access has been granted. 
