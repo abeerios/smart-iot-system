@@ -20,16 +20,14 @@ const String ownerPass = "ownerpass1";
 const String guestUser = "guest";
 const String guestPass = "guestpass2";
 
-bool loginAttempted = false; // tracking logins 
 
 DNSServer dnsServer;
 WebServer server(80); // setting web server port number
 
 const int ledPin = 2;  // onboard LED pin (GPIO2 for ESP32)
-bool ledState = false; // track LED state (useful for confirming if the ESP32 is
-                       // connected to WiFi)
 
-// time tracking for buzzer
+
+// setting time duration for buzzer
 bool reminderActive = false;
 unsigned long reminderStartTime = 0;
 
@@ -48,30 +46,34 @@ int pos = 0;
 // == Buzzer Pin ==
 const int buzzerPin = 25;
 
-// == NeoPixel ==
+// == NeoPixel LED ==
 #define ws2812bPin 23
 #define numPixels 9
 Adafruit_NeoPixel ws2812b(numPixels, ws2812bPin, NEO_GRB + NEO_KHZ800);
+
+// == LCD Display ==
+LiquidCrystal_I2C lcd(0x27, 16, 2); // configuring LCD 
 
 // == States ==
 bool loginAllowed = false;
 bool showDeniedMsg = false;
 String accessLevel = "";
+bool loginAttempted = false;
+bool ledState = false; // track LED state (useful for confirming if the ESP32 is
+// connected to WiFi)
 
 // == Functions ==
 
 // == Buzzer Pin ==
-void buzzAlarm(int durationMillis) {
-  for (int i = 0; i < durationMillis / 200; i++) {
+void buzzAlarm(int durationMillis) { 
+  for (int i = 0; i < durationMillis / 200; i++) {  // simulating a realistic sound 
+                                                    // for the buzzer when it rings
     digitalWrite(buzzerPin, HIGH);
     delay(100);
     digitalWrite(buzzerPin, LOW);
     delay(100);
   }
 }
-
-LiquidCrystal_I2C lcd(0x27, 16, 2); // 16 cols, 2 rows
-
 
 // == Servo Motor ==
 void unlockDoor() {
@@ -89,7 +91,7 @@ void lockDoor() {
 
 // == Lights ==
 
-// lights full brightness (white)
+// lights at full brightness (white)
 void fullBrightness() {
   for (int i = 0; i < numPixels; i++) {
     ws2812b.setPixelColor(i, ws2812b.Color(255, 255, 255));
@@ -215,9 +217,9 @@ void handleLogin() {
     } else {
       loginAllowed = false;
       accessLevel = "";
-      showDeniedMsg = true; // flag to show denial message
+      showDeniedMsg = true; // flag to show access denied message
       server.send(200, "text/html", "<h2>Access Denied</h2>");
-      triggerAlarm(); // if user is aunathorized, trigger the alarm
+      triggerAlarm(); // if user is unathorized, trigger the alarm
     }
   }
 
@@ -232,20 +234,21 @@ void setup() {
 
   // serve portal page
   server.on("/portal", [](){ server.send(200, "text/html", captive_portal()); });
-
-  server.on("/generate_204", handleRoot);        // Android
-  server.on("/hotspot-detect.html", handleRoot); // Apple
-  server.on("/", handleRoot);                    // catch direct hits
+  // redirecting users to the captive portal
+  server.on("/", handleRoot);
+  server.on("/generate_204", handleRoot);        // for Android users
+  server.on("/hotspot-detect.html", handleRoot); // for Apple users
+                    
 
   // handle login POST
   server.on("/login", HTTP_POST, handleLogin);
 
-  // all unknown pages are redirected to captive portal
+  // all unknown pages are redirected to the captive portal
   server.onNotFound(handleNotFound);
   server.begin();
 
-  lcd.init();      // Initialize the LCD
-  lcd.backlight(); // Turn on the backlight
+  lcd.init();      // initialize the LCD
+  lcd.backlight(); // turn on the backlight
   lcd.setCursor(0, 0);
   lcd.print("System Ready...");
 
@@ -283,15 +286,15 @@ void loop() {
   
     ws2812b.clear();
     server.handleClient(); // let person login to the captive portal
-      if (loginAllowed) {
-        distPrompt();
+      if (loginAllowed) {  // if the user is authorized, trigger the system
+        distPrompt();      // if user is > 1 m away, step closer
         if (accessLevel == "owner")
         {
-          unlockDoor();
+          unlockDoor();   
           ambYellow();
           lcd.clear();
           lcd.setCursor(0, 0);
-          lcd.print("Access Granted");
+          lcd.print("Access Granted"); // show message on LCD
           delay(1000);
           lcd.clear();
         }
@@ -309,10 +312,10 @@ void loop() {
       } else if (showDeniedMsg) {
         lcd.clear();
         lcd.setCursor(0, 0);
-        lcd.print("Access Denied");
+        lcd.print("Access Denied"); // show message on LCD 
         delay(1000);
         lcd.clear();
-        showDeniedMsg = false; // show only once
+        showDeniedMsg = false; 
         loginAttempted = false;
         loginAllowed = false;
         accessLevel = "";
