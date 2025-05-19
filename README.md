@@ -9,4 +9,4 @@ ESP32 and written in C++ (used Arduino Library and PlatformIO in VS Code). HTML 
 - Addressable LEDs personalized based on type of user (owner or guest).
 - Servo motor for door lock.
 - Ultrasonic sensor to gauage distance from door or setup.
-- LCD Display to show access type.
+- LCD display to show access type.
