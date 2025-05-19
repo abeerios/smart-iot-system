@@ -2,7 +2,7 @@
 This is a repo for my graduation project; a prototype of an IoT-based smart lighting and security system.
 
 ## 🖥️ Technology used:
-ESP32 and written in C++ (Arduino IDE).
+ESP32 and written in C++ (used Arduino Library and PlatformIO in VS Code). HTML was used for the captive portal.
 
 ## The system includes:
 - A piezo buzzer to alert neighbours of a possible intrusion.
