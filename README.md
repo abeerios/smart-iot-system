@@ -7,5 +7,5 @@ This project shows you how to create a user-friendly security system that incorp
 - A login form for the captive portal.
 - An ESP32 configured to be a Soft Access Point (AP), with self-contained Web and DNS servers.
 - Customizable lighting based on user type (owner, guest, and unauthorized).
-- Access levels for different users based on conditional logic (i.e., if person > 1 m away, tell to step closer)
+- Access levels for different users based on conditional logic (i.e., if person > 1 m away, step closer)
 - Code for a non-blocking active buzzer.
