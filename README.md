@@ -1,19 +1,11 @@
 # 🚀 smart-iot-system
-This is a prototype of an IoT-based smart lighting and security system.
+This is a prototype of a functional IoT-based smart lighting and security system that uses an ESP32 as the microcontroller.
 
-## How does it work and what inspired it? 
-A user connects to the esp32 which acts as both a soft access point, and a captive portal. If the user is authorized, the door (or rather, the servo motor acting as a placeholder for the door) unlocks and depending on whether the user is the owner of the home or a guest, the lights will turn yellow or blue, along with an LCD message saying access has been granted. 
+## What Does It Do?
+This project shows you how to create a user-friendly security system that incorporates lighting as part of the security feature. The access to the hypothetical door is controlled through a captive portal. The code contains the following:
 
-If the user is unathorized, the door will remain locked, or will lock if it has been in an unlocked state, and the buzzer will ring and the lights will flash brightly (just like real floodlights do) and you'll get an LCD message saying access has been denied.
-To be honest, what inspired it was a thought I had about people traveling away from home. Many people forget turning off something back home - the garage door anyone? And it got me wondering, wouldn't it be cool to have a system that could simulate there being someone at home, despite there...not being? And it rolled from there :)
-
-
-## 🖥️ Technology used:
-ESP32 and written in C++ (used Arduino Library and PlatformIO in VS Code). HTML was used for the captive portal.
-
-## The system includes:
-- A piezo buzzer to alert neighbours of a possible intrusion.
-- Addressable LEDs personalized based on type of user (owner or guest).
-- Servo motor for door lock.
-- Ultrasonic sensor to gauage distance from door or setup.
-- LCD display to show access type.
+- A login form for the captive portal.
+- An ESP32 configured to be a Soft Access Point (AP), with self-contained Web and DNS servers.
+- Customizable lighting based on user type (owner, guest, and unauthorized).
+- Access levels for different users based on conditional logic (i.e. if person > 1 m away, do this)
+- Code for a non-blocking active buzzer.
