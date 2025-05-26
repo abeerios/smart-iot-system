@@ -9,3 +9,6 @@ This project shows you how to create a user-friendly security system that incorp
 - Customizable lighting based on user type (owner, guest, and unauthorized).
 - Access levels for different users based on conditional logic (i.e., if person > 1 m away, step closer)
 - Code for a non-blocking active buzzer.
+
+## Watch the system in action here!
+<a href="https://youtu.be/Oaq3DMGut0Q" target="_blank"></a>
